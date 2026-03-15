@@ -59,6 +59,8 @@ protected:
     virtual wxControl* GetRightButton()= 0;
     virtual wxControl* GetDragButton()= 0;
     virtual wxControl* GetDblClickButton()= 0;
+    virtual wxControl* GetLeftStickyDragButton()= 0;
+    virtual wxControl* GetRightStickyDragButton()= 0;
     virtual wxControl* GetShowFrame()= 0;
 	
 private:
