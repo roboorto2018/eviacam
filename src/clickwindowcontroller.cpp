@@ -209,6 +209,16 @@ mousecmd::mousecmd CClickWindowController::GetAction(long x, long y)
 				if (!m_halfDragClick) retval= mousecmd::CMD_LEFT_DOWN;
 				else retval= mousecmd::CMD_LEFT_UP;
 				break;
+			case CClickWindowController::RIGHT_DRAG:
+				if (!m_halfDragClick) retval= mousecmd::CMD_RIGHT_DOWN;
+				else retval= mousecmd::CMD_RIGHT_UP;
+				break;
+			case CClickWindowController::LEFT_STICKY_DRAG:
+				retval= mousecmd::CMD_LEFT_STICKY_DRAG;
+				break;
+			case CClickWindowController::RIGHT_STICKY_DRAG:
+				retval= mousecmd::CMD_RIGHT_STICKY_DRAG;
+				break;
 			case CClickWindowController::DBLCLICK:
 				retval= mousecmd::CMD_DOUBLE_CLICK;
 				break;
@@ -339,7 +349,8 @@ void CClickWindowController::OnActionDoneEvent(const ActionDoneEvent& event) {
 	// mouse event is received otherwise update internal state
 	if (!IsCursorOverWindow(x,y))
 	{
-		if (m_currentButton== CClickWindowController::DRAG)
+		if (m_currentButton== CClickWindowController::DRAG ||
+		    m_currentButton== CClickWindowController::RIGHT_DRAG)
 		{
 			if (!m_halfDragClick) m_halfDragClick= true;
 			else
@@ -347,6 +358,11 @@ void CClickWindowController::OnActionDoneEvent(const ActionDoneEvent& event) {
 				m_halfDragClick= false;
 				m_currentButton= m_lockedButton;
 			}
+		}
+		else if (m_currentButton== CClickWindowController::LEFT_STICKY_DRAG ||
+		         m_currentButton== CClickWindowController::RIGHT_STICKY_DRAG)
+		{
+			m_currentButton= m_lockedButton;
 		}
 		else
 			m_currentButton= m_lockedButton;
