@@ -34,7 +34,7 @@ class ActionDoneEvent;
 class CClickWindowController : public wxEvtHandler, public CConfigBase
 {
 public:
-	enum EButton { NO_CLICK= 0, LEFT, MIDDLE, RIGHT, DRAG, DBLCLICK };
+	enum EButton { NO_CLICK= 0, LEFT, MIDDLE, RIGHT, DRAG, DBLCLICK, RIGHT_DRAG, LEFT_STICKY_DRAG, RIGHT_STICKY_DRAG };
 	enum EDesign { NORMAL= 0, THIN };
 	enum ELocation { FLOATING_HORIZONTAL= 0, FLOATING_VERTICAL, TOP_DOCKED, BOTTOM_DOCKED, LEFT_DOCKED, RIGHT_DOCKED };
 
