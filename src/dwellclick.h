@@ -100,6 +100,10 @@ private:
 	CWaitTime m_dwellCountdown;
 	CVisualAlertProgress m_progressVisualAlert;
 
+	// Sticky drag state
+	bool m_leftStickyDragActive;
+	bool m_rightStickyDragActive;
+
 	CMouseControl* m_mouseControl;
 };
 
