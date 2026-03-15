@@ -60,6 +60,14 @@
 #include "resources/buttonRightSelectedLocked.xpm"
 #include "resources/buttonRightSelected.xpm"
 #include "resources/buttonShowMainWindow.xpm"
+#include "resources/buttonLeftStickyDrag.xpm"
+#include "resources/buttonLeftStickyDragSelected.xpm"
+#include "resources/buttonLeftStickyDragLocked.xpm"
+#include "resources/buttonLeftStickyDragSelectedLocked.xpm"
+#include "resources/buttonRightStickyDrag.xpm"
+#include "resources/buttonRightStickyDragSelected.xpm"
+#include "resources/buttonRightStickyDragLocked.xpm"
+#include "resources/buttonRightStickyDragSelectedLocked.xpm"
 
 
 /*!
@@ -91,6 +99,14 @@ CClickWindowBitmap::CClickWindowBitmap( wxWindow* parent, const wxString& name)
 , m_bmpButtonRightSelected(buttonRightSelected)
 , m_bmpButtonRight(buttonRight)
 , m_bmpButtonShowMainWindow(buttonShowMainWindow)
+, m_bmpButtonLeftStickyDrag(buttonLeftStickyDrag)
+, m_bmpButtonLeftStickyDragSelected(buttonLeftStickyDragSelected)
+, m_bmpButtonLeftStickyDragLocked(buttonLeftStickyDragLocked)
+, m_bmpButtonLeftStickyDragSelectedLocked(buttonLeftStickyDragSelectedLocked)
+, m_bmpButtonRightStickyDrag(buttonRightStickyDrag)
+, m_bmpButtonRightStickyDragSelected(buttonRightStickyDragSelected)
+, m_bmpButtonRightStickyDragLocked(buttonRightStickyDragLocked)
+, m_bmpButtonRightStickyDragSelectedLocked(buttonRightStickyDragSelectedLocked)
 {
 	m_btnNoClick = NULL;
 	m_btnLeft = NULL;
@@ -98,6 +114,8 @@ CClickWindowBitmap::CClickWindowBitmap( wxWindow* parent, const wxString& name)
 	m_btnRight = NULL;
 	m_btnDrag = NULL;
 	m_btnDblLeft = NULL;
+	m_btnLeftStickyDrag = NULL;
+	m_btnRightStickyDrag = NULL;
 	m_btnShowFrame = NULL;
 
     Create(parent, name);
@@ -125,6 +143,8 @@ void CClickWindowBitmap::CreateControls(const wxString& name)
     m_btnRight = XRCCTRL(*this, "ID_BITMAPBUTTON_RIGHT", wxBitmapButton);
     m_btnDrag = XRCCTRL(*this, "ID_BITMAPBUTTON_DRAG", wxBitmapButton);
     m_btnDblLeft = XRCCTRL(*this, "ID_BITMAPBUTTON_DBLCLICK", wxBitmapButton);
+    m_btnLeftStickyDrag = XRCCTRL(*this, "ID_BITMAPBUTTON_LEFT_STICKY_DRAG", wxBitmapButton);
+    m_btnRightStickyDrag = XRCCTRL(*this, "ID_BITMAPBUTTON_RIGHT_STICKY_DRAG", wxBitmapButton);
     m_btnShowFrame = XRCCTRL(*this, "ID_BITMAPBUTTON", wxBitmapButton);
 
 	ConnectEvents ();
@@ -160,6 +180,16 @@ wxControl* CClickWindowBitmap::GetDblClickButton()
 	return m_btnDblLeft;
 }
 
+wxControl* CClickWindowBitmap::GetLeftStickyDragButton()
+{
+	return m_btnLeftStickyDrag;
+}
+
+wxControl* CClickWindowBitmap::GetRightStickyDragButton()
+{
+	return m_btnRightStickyDrag;
+}
+
 wxControl* CClickWindowBitmap::GetShowFrame()
 {
 	return m_btnShowFrame;
@@ -177,6 +207,8 @@ void CClickWindowBitmap::UpdateButtons (bool noClickStatus, CClickWindowControll
 		m_btnRight->Enable();
 		m_btnDrag->Enable();
 		m_btnDblLeft->Enable();
+		m_btnLeftStickyDrag->Enable();
+		m_btnRightStickyDrag->Enable();
 	}
 	else {
 		m_btnNoClick->SetBitmapLabel (m_bmpButtonNoClickSelected);
@@ -185,6 +217,8 @@ void CClickWindowBitmap::UpdateButtons (bool noClickStatus, CClickWindowControll
 		m_btnRight->Disable();
 		m_btnDrag->Disable();
 		m_btnDblLeft->Disable();
+		m_btnLeftStickyDrag->Disable();
+		m_btnRightStickyDrag->Disable();
 	}
 
 	/* Update bitmaps */
@@ -242,6 +276,28 @@ void CClickWindowBitmap::UpdateButtons (bool noClickStatus, CClickWindowControll
 			m_btnDblLeft->SetBitmapLabel (m_bmpButtonDblLeftLocked);
 		else
 			m_btnDblLeft->SetBitmapLabel (m_bmpButtonDblLeft);
+
+	if (selected== CClickWindowController::LEFT_STICKY_DRAG)
+		if (locked== CClickWindowController::LEFT_STICKY_DRAG)
+			m_btnLeftStickyDrag->SetBitmapLabel (m_bmpButtonLeftStickyDragSelectedLocked);
+		else
+			m_btnLeftStickyDrag->SetBitmapLabel (m_bmpButtonLeftStickyDragSelected);
+	else
+		if (locked== CClickWindowController::LEFT_STICKY_DRAG)
+			m_btnLeftStickyDrag->SetBitmapLabel (m_bmpButtonLeftStickyDragLocked);
+		else
+			m_btnLeftStickyDrag->SetBitmapLabel (m_bmpButtonLeftStickyDrag);
+
+	if (selected== CClickWindowController::RIGHT_STICKY_DRAG)
+		if (locked== CClickWindowController::RIGHT_STICKY_DRAG)
+			m_btnRightStickyDrag->SetBitmapLabel (m_bmpButtonRightStickyDragSelectedLocked);
+		else
+			m_btnRightStickyDrag->SetBitmapLabel (m_bmpButtonRightStickyDragSelected);
+	else
+		if (locked== CClickWindowController::RIGHT_STICKY_DRAG)
+			m_btnRightStickyDrag->SetBitmapLabel (m_bmpButtonRightStickyDragLocked);
+		else
+			m_btnRightStickyDrag->SetBitmapLabel (m_bmpButtonRightStickyDrag);
 }
 
 void CClickWindowBitmap::OnMainWindowShow ( wxShowEvent& event )
