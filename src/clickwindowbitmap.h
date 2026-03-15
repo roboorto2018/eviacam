@@ -60,6 +60,8 @@ protected:
     virtual wxControl* GetRightButton();
     virtual wxControl* GetDragButton();
     virtual wxControl* GetDblClickButton();
+    virtual wxControl* GetLeftStickyDragButton();
+    virtual wxControl* GetRightStickyDragButton();
     virtual wxControl* GetShowFrame();
 
 	wxBitmap m_bmpButtonDblLeftLocked;
@@ -86,6 +88,15 @@ protected:
 	wxBitmap m_bmpButtonRightSelected;
 	wxBitmap m_bmpButtonRight;
 	wxBitmap m_bmpButtonShowMainWindow;
+	// Sticky drag buttons
+	wxBitmap m_bmpButtonLeftStickyDrag;
+	wxBitmap m_bmpButtonLeftStickyDragSelected;
+	wxBitmap m_bmpButtonLeftStickyDragLocked;
+	wxBitmap m_bmpButtonLeftStickyDragSelectedLocked;
+	wxBitmap m_bmpButtonRightStickyDrag;
+	wxBitmap m_bmpButtonRightStickyDragSelected;
+	wxBitmap m_bmpButtonRightStickyDragLocked;
+	wxBitmap m_bmpButtonRightStickyDragSelectedLocked;
 	
     wxBitmapButton* m_btnNoClick;
     wxBitmapButton* m_btnLeft;
@@ -93,6 +104,8 @@ protected:
     wxBitmapButton* m_btnRight;
     wxBitmapButton* m_btnDrag;
     wxBitmapButton* m_btnDblLeft;
+    wxBitmapButton* m_btnLeftStickyDrag;
+    wxBitmapButton* m_btnRightStickyDrag;
     wxBitmapButton* m_btnShowFrame;
 };
 
