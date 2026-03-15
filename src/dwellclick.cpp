@@ -31,6 +31,8 @@ CDwellClick::CDwellClick(CMouseControl& mc)
 , m_visualAlertsEnabled(false)
 , m_useClickWindow(false)
 , m_dwellToleranceArea(0)
+, m_leftStickyDragActive(false)
+, m_rightStickyDragActive(false)
 , m_mouseControl(&mc)
 {
 	m_pClickWindowController= new CClickWindowController(wxGetApp().GetController());
@@ -181,6 +183,14 @@ void CDwellClick::SetEnabled(bool value)
 
 void CDwellClick::Reset()
 {
+	if (m_leftStickyDragActive) {
+		m_mouseControl->LeftUp();
+		m_leftStickyDragActive = false;
+	}
+	if (m_rightStickyDragActive) {
+		m_mouseControl->RightUp();
+		m_rightStickyDragActive = false;
+	}
 	m_dwellCountdown.Reset();
 	m_progressVisualAlert.End();
 }
