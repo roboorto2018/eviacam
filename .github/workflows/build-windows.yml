@@ -1,0 +1,69 @@
+name: Build EviaCAM for Windows
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+    - name: Checkout sorgente
+      uses: actions/checkout@v4
+
+    - name: Scarica wxWidgets
+      run: |
+        $url = "https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.4/wxMSW-3.2.4_vc14x_Dev.7z"
+        Invoke-WebRequest -Uri $url -OutFile "C:\wx_dev.7z"
+        7z x C:\wx_dev.7z -oC:\wxWidgets -y
+        $url2 = "https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.4/wxWidgets-3.2.4-headers.7z"
+        Invoke-WebRequest -Uri $url2 -OutFile "C:\wx_headers.7z"
+        7z x C:\wx_headers.7z -oC:\wxWidgets -y
+      shell: pwsh
+
+    - name: Scarica OpenCV
+      run: |
+        $url = "https://github.com/opencv/opencv/releases/download/4.6.0/opencv-4.6.0-windows.exe"
+        Invoke-WebRequest -Uri $url -OutFile "C:\opencv_installer.exe"
+        Start-Process -FilePath "C:\opencv_installer.exe" -ArgumentList "-oC:\opencv -y" -Wait
+      shell: pwsh
+
+    - name: Aggiorna PlatformToolset a v142
+      run: |
+        Get-ChildItem -Recurse -Filter "*.vcxproj" | ForEach-Object {
+          (Get-Content $_.FullName) -replace 'v120','v142' -replace 'v110','v142' |
+          Set-Content $_.FullName
+        }
+      shell: pwsh
+
+    - name: Imposta variabili ambiente
+      run: |
+        echo "WXWIN=C:\wxWidgets" >> $env:GITHUB_ENV
+        echo "CVPATH=C:\opencv\opencv" >> $env:GITHUB_ENV
+      shell: pwsh
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Compila EviaCAM (Release x86)
+      run: |
+        msbuild win32\eviacam.sln /p:Configuration=Release /p:Platform=Win32 /p:WXWIN="C:\wxWidgets" /p:CVPATH="C:\opencv\opencv" /m
+      shell: pwsh
+
+    - name: Raccogli file output
+      run: |
+        New-Item -ItemType Directory -Force -Path "dist"
+        Get-ChildItem -Recurse -Filter "eviacam.exe" | Copy-Item -Destination "dist\" -ErrorAction SilentlyContinue
+        Copy-Item "C:\opencv\opencv\build\x86\vc15\bin\opencv_world460.dll" "dist\" -ErrorAction SilentlyContinue
+        Copy-Item -Path "src\resources" -Destination "dist\resources" -Recurse -ErrorAction SilentlyContinue
+        Get-ChildItem "dist"
+      shell: pwsh
+
+    - name: Carica artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: eviacam-windows-sticky-drag
+        path: dist/
+        retention-days: 30
