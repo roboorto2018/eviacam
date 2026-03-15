@@ -86,6 +86,26 @@
                     <disabled>buttonDblLeftDisabled.xpm</disabled>
                 </object>
             </object>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                <border>2</border>
+                <object class="wxBitmapButton" name="ID_BITMAPBUTTON_LEFT_STICKY_DRAG">
+                    <tooltip>Sticky Drag sinistro - tasto sinistro tenuto premuto durante il movimento</tooltip>
+                    <style>wxNO_BORDER</style>
+                    <bitmap>buttonLeftStickyDrag.xpm</bitmap>
+                    <disabled>buttonDragDisabled.xpm</disabled>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                <border>2</border>
+                <object class="wxBitmapButton" name="ID_BITMAPBUTTON_RIGHT_STICKY_DRAG">
+                    <tooltip>Sticky Drag destro - tasto destro tenuto premuto durante il movimento</tooltip>
+                    <style>wxNO_BORDER</style>
+                    <bitmap>buttonRightStickyDrag.xpm</bitmap>
+                    <disabled>buttonRightDisabled.xpm</disabled>
+                </object>
+            </object>
             <object class="spacer">
                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                 <border>5</border>
